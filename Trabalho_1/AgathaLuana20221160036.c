@@ -262,21 +262,12 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
     }
 
     
+
         
-
-    
-        
-        
-
-    
-
-   
-
 
 
         
-        
-    if(dataI.iAno <= dataF.iAno){
+   if(dataI.iAno <= dataF.iAno){
         printf("entrou\n");
         dma.qtdAnos = (dataF.iAno - dataI.iAno);
         printf("Diferença de Anos: %d \n", dma.qtdAnos);
@@ -328,7 +319,25 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 int q3(char *texto, char c, int isCaseSensitive)
 {
     int qtdOcorrencias = -1;
-
+    int k = 0;
+    
+    switch(isCaseSensitive){
+        case 1:
+            for(int i = 0; texto[i] != '\0'; i++){       
+            if(texto[i] == c){               
+                k++;               
+            }
+        }
+        break;
+        
+        default:
+            for(int i = 0; texto[i] != '\0';i++){
+                if (texto[i] == c || texto[i]+32 == c || texto[i] - 32 == c){
+                    k++;
+                }
+            }    
+    }    
+    qtdOcorrencias = k;
     return qtdOcorrencias;
 }
 
@@ -346,11 +355,57 @@ int q3(char *texto, char c, int isCaseSensitive)
         Observe que o índice da posição no texto deve começar ser contado a partir de 1.
         O retorno da função, n, nesse caso seria 1;
  */
+void removeAcentos(char strTexto[]){
+    int k = 0;
+    int i;
+    i = strlen(strTexto);
+    for (int j = 0; j < i; j++)
+    {
+        if (strTexto[j] != -61)
+        {
+            strTexto[k] = strTexto[j];
+            k++;
+        }
+    }
+}
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
-    int qtdOcorrencias = -1;
 
-    return qtdOcorrencias;
+    for(int i = 0; i < 30; i++){
+        posicoes[i] = 0;
+    }
+    int total = 0;
+    int k = 0;
+    int v = 0;
+
+    removeAcentos(strTexto);  
+    int j;
+    for (int i = 0; strTexto[i] != '\0'; i++){
+        if (strBusca[0] == strTexto[i]){
+            int cont = 1;
+            for (j = 1; strBusca[j] != '\0'; j++)
+            {
+                if (strBusca[j] != strTexto[i+j]){
+                break;   
+                }                             
+                cont++;              
+            }
+            
+            if (cont == strlen(strBusca))
+            {
+                v++;
+                int a = (i+1);
+                posicoes[total] = a;
+                a = 0;
+                total++;
+                int b = (i+cont);
+                posicoes[total] = b;
+                b = 0;
+                total++;
+            }
+          }        
+    }
+    return v;
 }
 
 /*
@@ -365,27 +420,18 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
 
 int q5(int num)
 {
-    int max = 9, gamb = 0;
-    
-    int i, j;
-
-    for(int i = 0; i < 10; i++){       
-        if(max <= num){
-           max = max * 10;            
-        } 
-    }    
-    max = (max / 9);
-
-    
-
-    
-
-    
-    printf("num %d max %d", num, max);
-
-    printf("\n\n");
-
-    return num;
+    int result=0;
+    int cont = 0;
+    while(num > 0)
+    {
+        if(cont>=1){
+            result=result*10;
+        }
+        result += num % 10;
+        num=num/10;  
+        cont++;      
+    }
+    return result;
 }
 
 /*
@@ -400,6 +446,35 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias;
-    return qtdOcorrencias;
+    int qtdOcorrencias = 0;
+    int verifica, auV;
+
+    int divisor = 1;
+    int qdivisor = 1;
+    int multiplicador = 10;
+    
+    int quonciente = numerobase;
+    int qnumerobusca = numerobusca;
+   
+    int cont = 0;
+    while(qnumerobusca > 0){
+        qnumerobusca /= 10;
+        cont++;
+        divisor *= 10;
+    }
+    int k = cont;  
+
+    while(numerobase > 0){
+        if((numerobase % divisor) == numerobusca){
+            qtdOcorrencias++;
+            numerobase /= divisor;
+        } else {
+            numerobase /= 10;
+        }
+        
+    }
+
+    
+  
+   return qtdOcorrencias;
 }

@@ -1,3 +1,4 @@
+
 // #################################################
 //  Instituto Federal da Bahia
 //  Salvador - BA
@@ -33,12 +34,12 @@ int main()
 {
     //testSomar();
     //testFatorial();
-    //testQ1();
-    //testQ2();
-    //testQ3();
-    //testQ4();
-    testQ5();
-    //testQ6();
+    //testQ1();    //Ok!!
+    testQ2();
+    //testQ3();    //Ok!!
+    //testQ4();    //Não funcinounou com o novo corretor
+    //testQ5();    //Ok!!
+    //testQ6();    //Ok!!
 }
 
 void testSomar()
@@ -178,6 +179,28 @@ void testQ4()
     printf("%d\n", posicoes[3] == 36);
     printf("%d\n", posicoes[4] == 52);
     printf("%d\n", posicoes[5] == 54);
+
+        for (i = 0; i<30; i++){
+        posicoes[i] = -1;
+    }
+    strcpy(strTexto,"Programar é legal?");
+    strcpy(strBusca,"sim");
+    printf("%d\n",q4(strTexto, strBusca, posicoes) == 0);
+    printf("Maravilha\n");
+    for (i = 0; i<30; i++){
+        posicoes[i] = -1;
+    }
+    strcpy(strTexto,"maraaaavilha, meu prograaaama funcionou");
+    strcpy(strBusca,"aa");
+    printf("%d\n",q4(strTexto, strBusca, posicoes) == 4);
+    printf("%d\n",posicoes[0]==4);
+    printf("%d\n",posicoes[1]==5);
+    printf("%d\n",posicoes[2]==6);
+    printf("%d\n",posicoes[3]==7);
+    printf("%d\n",posicoes[4]==24);
+    printf("%d\n",posicoes[5]==25);
+    printf("%d\n",posicoes[6]==26);
+    printf("%d\n",posicoes[7]==27);
 }
 
 void testQ5()

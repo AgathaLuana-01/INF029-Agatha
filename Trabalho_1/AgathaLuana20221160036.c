@@ -260,10 +260,7 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
     } else if(dataF.bissexto == 1){
         qtDia = 366;
     }
-
     
-
-        
 
 
         

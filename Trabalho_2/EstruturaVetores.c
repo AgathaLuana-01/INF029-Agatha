@@ -190,9 +190,9 @@ int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
   if (!Principal[posicao]) {
     return SEM_ESTRUTURA_AUXILIAR;
   }
-    for(int i = 0; i < Principal[posicao]->total; i++){
-        vetorAux[i] = Principal[posicao][i].valor;
-    }
+  for (int i = 0; i < Principal[posicao]->total; i++) {
+    vetorAux[i] = Principal[posicao][i].valor;
+  }
 
   return retorno;
 }
@@ -209,8 +209,32 @@ Posição inválida para estrutura auxiliar
 int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
 
   int retorno = 0;
-
+  retorno = ehPosicaoValida(posicao);
+  if (retorno != SUCESSO) {
+    return retorno;
+  }
+  posicao = posicao - 1;
+  if (!Principal[posicao]) {
+    return SEM_ESTRUTURA_AUXILIAR;
+  }
+  for (int i = 0; i < Principal[posicao]->total; i++) {
+    vetorAux[i] = Principal[posicao][i].valor;
+  }
+  ordenaVetAux(Principal[posicao]->total, vetorAux);
   return retorno;
+}
+
+void ordenaVetAux(int total, int vetorAux[]) {
+  int aux;
+  for (int i = 0; i < total; i++) {
+    for (int j = i + 1; j < total; j++) {
+      if (vetorAux[i] > vetorAux[j]) {
+        aux = vetorAux[i];
+        vetorAux[i] = vetorAux[j];
+        vetorAux[j] = aux;
+      }
+    }
+  }
 }
 
 /*
@@ -223,8 +247,24 @@ Rertono (int)
 estão vazias
 */
 int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
+  int k = 0;
+  int cont = 0;
+  int retorno = SUCESSO;
+  for (int i = 0; i < 10; i++) {
+    if (Principal[i] != NULL) {
+      if (Principal[i]->total != 0) {
+        for (int j = 0; j < Principal[i]->total; j++) {
+          vetorAux[k] = Principal[i][j].valor;
+          k++;
+          cont++;
+        }
+      }
+    }
+  }
+  if (cont == 0) {
+    return TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
+  }
 
-  int retorno = 0;
   return retorno;
 }
 
@@ -238,8 +278,24 @@ Rertono (int)
 estão vazias
 */
 int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
-
-  int retorno = 0;
+  int k = 0;
+  int cont = 0;
+  int retorno = SUCESSO;
+  for (int i = 0; i < 10; i++) {
+    if (Principal[i] != NULL) {
+      if (Principal[i]->valor != 0) {
+        for (int j = 0; j < Principal[i]->total; j++) {
+          vetorAux[k] = Principal[i][j].valor;
+          k++;
+          cont++;
+        }
+      }
+    }
+  }
+  if (cont == 0) {
+    return TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
+  }
+  ordenaVetAux(k, vetorAux);
   return retorno;
 }
 
@@ -250,15 +306,38 @@ tamanho = n. O tamanho resultante deve ser x + n. Sendo que x + n deve ser
 sempre >= 1
 
 Rertono (int)
-    SUCESSO - foi modificado corretamente o tamanho da estrutura auxiliar
-    SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
-    POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
+    --SUCESSO - foi modificado corretamente o tamanho da estrutura auxiliar
+    --SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
+    --POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
     NOVO_TAMANHO_INVALIDO - novo tamanho não pode ser negativo
-    SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
+    --SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
 */
 int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
 
   int retorno = 0;
+    retorno = ehPosicaoValida(posicao);
+  if (retorno != SUCESSO) {
+    return retorno;
+  }
+  posicao = posicao - 1;
+  if (!Principal[posicao]) {
+    return SEM_ESTRUTURA_AUXILIAR;
+  }
+    int tValido = novoTamanho + Principal[posicao]->tamanho;
+    
+    if(tValido >= 1){
+        Principal[posicao] = realloc(Principal[posicao], sizeof(Estrutura)*tValido);
+        if (!Principal[posicao]) {
+        return SEM_ESPACO_DE_MEMORIA;
+      }        
+    } else {
+        return NOVO_TAMANHO_INVALIDO;
+    }
+    Principal[posicao]->tamanho = tValido;
+    if(Principal[posicao]->total > Principal[posicao]->tamanho){
+        Principal[posicao]->total = tValido;
+    }
+    
   return retorno;
 }
 
@@ -276,7 +355,22 @@ estrutura
 int getQuantidadeElementosEstruturaAuxiliar(int posicao) {
 
   int retorno = 0;
-
+retorno = ehPosicaoValida(posicao);
+  if (retorno != SUCESSO) {
+    return POSICAO_INVALIDA;
+  }
+  posicao = posicao - 1;
+  if (!Principal[posicao]) {
+    return SEM_ESTRUTURA_AUXILIAR;
+  } else {
+      if(Principal[posicao]->total == 0){
+          return ESTRUTURA_AUXILIAR_VAZIA;  
+      } else {
+          return Principal[posicao]->total;
+      }   
+    }
+    
+    
   return retorno;
 }
 

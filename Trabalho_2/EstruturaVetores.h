@@ -46,5 +46,6 @@ void finalizar();
 void dobrar(int *x);
 
 int buscaNumero(int posicao, int valor);
+void ordenaVetAux(int total, int vetorAux[]);
 
 #endif // TRABALHO2_ESTRUTURAVETORES_H
